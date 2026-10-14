@@ -1,0 +1,26 @@
+{
+  "_meta": { "name": "English" },
+  "screen": {
+    "no_keys": "Give a key an action"
+  },
+  "app": {
+    "name": "Transport controls",
+    "summary": "Media keys, from skip back to eject, each running the Home Assistant action you choose.",
+    "tile_name": "Transport controls",
+    "tile_example": "Skip back, stop, play, pause, skip forward and eject",
+    "key_previous": "Skip back",
+    "key_previous_hint": "The action of this key, such as media_player.media_previous_track. Leave it empty to leave the key out.",
+    "key_stop": "Stop",
+    "key_stop_hint": "Such as media_player.media_stop. Leave it empty to leave the key out.",
+    "key_play": "Play",
+    "key_play_hint": "Such as media_player.media_play. Leave it empty to leave the key out.",
+    "key_pause": "Pause",
+    "key_pause_hint": "Such as media_player.media_pause. Leave it empty to leave the key out.",
+    "key_play_pause": "Play/pause",
+    "key_play_pause_hint": "Such as media_player.media_play_pause. Leave it empty to leave the key out.",
+    "key_next": "Skip forward",
+    "key_next_hint": "Such as media_player.media_next_track. Leave it empty to leave the key out.",
+    "key_eject": "Eject",
+    "key_eject_hint": "Such as remote.send_command command=EJECT, or script.turn_on script.eject_disc to act on another entity. Leave it empty to leave the key out."
+  }
+}

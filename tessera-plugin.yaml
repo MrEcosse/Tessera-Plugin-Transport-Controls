@@ -1,0 +1,56 @@
+# Transport controls: a strip of media keys (skip back, stop, play, pause, play/pause, skip forward, eject), each of
+# which performs the Home Assistant action a person gives it. A key without an action is left out; the keys that are
+# there keep that order and sit together in the middle of the tile. docs/MANIFEST.md has every field.
+id: transport_controls
+version: 0.1.0
+# 0.10 for tessera::tap_point(): which key the finger was on.
+api: "0.10"
+icon: play-pause
+maintainer: MrEcosse
+license: MIT
+stage: beta
+topics: [media, home]
+requires:
+  esphome: 2026.6.2
+boards: any
+flash_kb: 6
+
+permissions:
+  # A key performs whatever action a person types for it. These are the ones it is made for; the screen does not limit
+  # a key to this list (docs/MANIFEST.md, "permissions"), so read the README's "Good to know" before you add it.
+  home_assistant_actions:
+    - media_player.media_previous_track
+    - media_player.media_stop
+    - media_player.media_play
+    - media_player.media_pause
+    - media_player.media_play_pause
+    - media_player.media_next_track
+    - remote.send_command
+    - script.turn_on
+    - button.press
+    - input_button.press
+    - scene.turn_on
+    - switch.turn_on
+    - switch.turn_off
+    - switch.toggle
+
+tiles:
+  - id: keys
+    name: tile_name
+    icon: play-pause
+    # At least two cells wide, and one row high however wide it grows.
+    sizes: { min: 2x1, max: 9x1 }
+    # Seven keys of a block and an icon each, the eject key's drawing, the line shown before any key has an action,
+    # and the seven actions as the person typed them (in the tile's own object, which is in PSRAM).
+    memory: 1600
+    # The entity the keys act on unless a key names one of its own. A media player also lights the key of what it does.
+    domains: [media_player, remote, script, button, input_button, switch, scene, automation]
+    example: tile_example
+    options:
+      - { id: previous, kind: text, label: key_previous, hint: key_previous_hint }
+      - { id: stop, kind: text, label: key_stop, hint: key_stop_hint }
+      - { id: play, kind: text, label: key_play, hint: key_play_hint }
+      - { id: pause, kind: text, label: key_pause, hint: key_pause_hint }
+      - { id: play_pause, kind: text, label: key_play_pause, hint: key_play_pause_hint }
+      - { id: next, kind: text, label: key_next, hint: key_next_hint }
+      - { id: eject, kind: text, label: key_eject, hint: key_eject_hint }

@@ -1,0 +1,48 @@
+# What tools/preview.py shows (docs/PREVIEW.md): a media player that plays, with every key; a Blu-ray player behind an
+# IR remote with the keys it has; a paused player with a key whose text is not an action; and a tile whose keys have
+# no action yet.
+tiles:
+  - tile: keys
+    name: Living room
+    entity: media_player.living_room
+    options:
+      previous: media_player.media_previous_track
+      stop: media_player.media_stop
+      play: media_player.media_play
+      pause: media_player.media_pause
+      play_pause: media_player.media_play_pause
+      next: media_player.media_next_track
+      eject: script.turn_on script.eject_disc
+  - tile: keys
+    name: Blu-ray
+    entity: remote.cinema_ir
+    options:
+      previous: remote.send_command command=PREVIOUS
+      play_pause: remote.send_command command=PLAY_PAUSE
+      next: remote.send_command command=NEXT
+      eject: remote.send_command command=EJECT
+    sizes: [2x1, 4x1]
+  - tile: keys
+    name: Kitchen
+    entity: media_player.kitchen
+    options:
+      previous: media_player.media_previous_track
+      play: media_player.media_play
+      pause: media_player.media_pause
+      next: media_player.media_next_track
+      eject: eject the disc
+    sizes: [2x1, 3x1]
+  - tile: keys
+    name: Not set up
+    sizes: [2x1]
+
+states:
+  media_player.living_room:
+    state: playing
+    attributes: { friendly_name: Living room }
+  remote.cinema_ir:
+    state: "on"
+    attributes: { friendly_name: Cinema IR }
+  media_player.kitchen:
+    state: paused
+    attributes: { friendly_name: Kitchen }
