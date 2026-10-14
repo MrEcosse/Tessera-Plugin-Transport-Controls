@@ -5,14 +5,15 @@ the Home Assistant action you give it, so the same tile drives a media player, a
 anything a script can reach.
 
 Give a key an action and it appears; leave it empty and it is left out. The keys always keep this order and sit together
-in the middle of the tile. The tile is two cells wide at least and grows as wide as the page, but never taller than one
-row.
+in the middle of the tile. The tile is one cell at least and grows as wide as the page, but never taller than one row.
+On a tile too narrow for the keys side by side, they wrap onto two or three rows.
 
 ## Set up
 
 1. In Tessera, open **Plugins**, choose **Transport controls** and tick your screens. Each screen builds once with the
    plugin.
-2. In Layout, place the **Transport controls** tile from the library's Plugins group, two cells wide or more.
+2. In Layout, place the **Transport controls** tile from the library's Plugins group. Widen it by its edge for larger
+   keys in one row.
 3. In the inspector, choose the entity the keys act on: a media player, a remote, a script and so on.
 4. Type an action for each key you want, for example:
 
@@ -50,8 +51,8 @@ script.<its name>`.
   the screen may not perform actions).
 - With a media player as the tile's entity, the key of what it does is lit: play and play/pause while it plays, pause
   while it is paused. The icons go grey while the entity is unavailable.
-- Works on every board, the CYD included. On a small screen with all seven keys in two cells, the icons get smaller;
-  make the tile wider to give them more room.
+- Works on every board, the CYD included. On a single cell, or with all seven keys on a small screen, the keys wrap
+  onto more rows or get smaller; make the tile wider to give them more room.
 
 ## Good to know
 
@@ -62,9 +63,9 @@ script.<its name>`.
 
 ## How it works
 
-- `tessera-plugin.yaml`: one tile, `keys`, 2x1 to 9x1, that belongs to an entity of the domains it acts on, with one
+- `tessera-plugin.yaml`: one tile, `keys`, 1x1 to 9x1, that belongs to an entity of the domains it acts on, with one
   text option per key.
 - `components/transport_controls/transport_command.h`: reads a key's text into an action, a target and a field.
-- `components/transport_controls/transport_controls.cpp`: lays the keys out in the middle of the tile, finds the key
+- `components/transport_controls/transport_controls.cpp`: lays the keys out in the middle of the tile, in up to three rows, finds the key
   under the finger (`tessera::tap_point`) and sends its action (`tessera::action`). The eject symbol is not in
   Tessera's icon set, so its key draws Material Design's eject itself.

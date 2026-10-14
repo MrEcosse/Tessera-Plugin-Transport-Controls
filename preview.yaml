@@ -13,6 +13,7 @@ tiles:
       play_pause: media_player.media_play_pause
       next: media_player.media_next_track
       eject: script.turn_on script.eject_disc
+    sizes: [1x1, 2x1, 3x1, 5x1]
   - tile: keys
     name: Blu-ray
     entity: remote.cinema_ir
@@ -21,7 +22,7 @@ tiles:
       play_pause: remote.send_command command=PLAY_PAUSE
       next: remote.send_command command=NEXT
       eject: remote.send_command command=EJECT
-    sizes: [2x1, 4x1]
+    sizes: [1x1, 2x1, 4x1]
   - tile: keys
     name: Kitchen
     entity: media_player.kitchen
@@ -31,10 +32,10 @@ tiles:
       pause: media_player.media_pause
       next: media_player.media_next_track
       eject: eject the disc
-    sizes: [2x1, 3x1]
+    sizes: [1x1, 2x1, 3x1]
   - tile: keys
     name: Not set up
-    sizes: [2x1]
+    sizes: [1x1, 2x1]
 
 states:
   media_player.living_room:
