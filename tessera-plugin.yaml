@@ -3,7 +3,7 @@
 # there keep that order and sit together in the middle of the tile, in one row, or in two or three on a narrow tile.
 # docs/MANIFEST.md has every field.
 id: transport_controls
-version: 0.2.0
+version: 0.2.1
 # 0.10 for tessera::tap_point(): which key the finger was on.
 api: "0.10"
 icon: play-pause

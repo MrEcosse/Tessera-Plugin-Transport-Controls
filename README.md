@@ -8,6 +8,28 @@ Give a key an action and it appears; leave it empty and it is left out. The keys
 in the middle of the tile. The tile is one cell at least and grows as wide as the page, but never taller than one row.
 On a tile too narrow for the keys side by side, they wrap onto two or three rows.
 
+## Part of a set for wall panels
+
+This tile belongs to a set of four plugins for the same job: media controls that are screwed to a wall instead of held
+in the hand. Think of a conference room where the presenter needs the display's input, volume and menu without hunting
+for a remote, a sports bar where staff switch each TV to the right match and channel, a restaurant or lounge with
+background music and a screen behind the bar, a hotel or holiday-let lounge, a cinema room, or a shop-floor display.
+
+The four tiles share one idea. They are **bespoke**: each key or digit runs exactly the Home Assistant action you type,
+on exactly the entity you choose, so they work with anything Home Assistant can reach, including devices where the
+built-in tiles and Tessera's own remote card do not fit (an IR or Broadlink blaster, a Harmony hub, a streamer behind a
+script, a projector on a serial bridge, an LG webOS or Samsung TV). They all use the same action text, `action [entity]
+[field=value]`, so learning one means knowing them all, and each starts at one cell so it fits any layout.
+
+| Plugin | What it is for |
+|---|---|
+| [Transport controls](https://github.com/MrEcosse/Tessera-Plugin-Transport-Controls) | skip, stop, play, pause, eject |
+| [D-pad](https://github.com/MrEcosse/Tessera-Plugin-D-Pad) | arrows, OK, back, home, menu, guide |
+| [Volume controls](https://github.com/MrEcosse/Tessera-Plugin-Volume-Controls) | quieter, mute, louder |
+| [Number pad](https://github.com/MrEcosse/Tessera-Plugin-Number-Pad) | channels, TV or camera numbers (not PIN codes) |
+
+Use them side by side on one panel, or pick the one you need.
+
 ## Set up
 
 1. In Tessera, open **Plugins**, choose **Transport controls** and tick your screens. Each screen builds once with the

@@ -97,41 +97,18 @@ class KeysTile : public tessera::Tile {
       return;
     }
 
-    // The keys in one row where each is at least a finger wide (7 mm), else in two or three rows, the last row holding
-    // what is left; where nothing reaches 7 mm, the rows that give the largest keys. A key is never wider than half again
-    // its height, nor higher than 12 mm: a finger's key on a small screen, not a slab on a large one. The gap narrows
-    // before the keys do.
-    int best = -1;
-    for (int r = 1; r <= 3 && r <= count_; ++r) {
-      const int per = (count_ + r - 1) / r;
-      int gap = ui::px(8);
-      int slot = (c.width - gap * (per - 1)) / per;
-      int high = (c.height - gap * (r - 1)) / r;
-      if ((slot < ui::mm(9) || high < ui::mm(9)) && (per > 1 || r > 1)) {
-        gap = ui::px(3);
-        slot = (c.width - gap * (per - 1)) / per;
-        high = (c.height - gap * (r - 1)) / r;
-      }
-      const int kh = std::max(1, std::min(high, ui::mm(12)));
-      const int kw = std::max(1, std::min(slot, kh * 3 / 2));
-      const int size = std::min(kw, kh);
-      const bool fits = size >= ui::mm(7);
-      if (best < 0 || fits || size > best) {
-        best = size;
-        rows_ = r;
-        per_ = per;
-        gap_ = gap;
-        kw_ = kw;
-        kh_ = kh;
-      }
-      if (fits) break;
+    // As wide as the room allows, never wider than half again their height, at most 12 mm high: a finger's key on a
+    // small screen, not a slab on a large one. The gap narrows before the keys do.
+    gap_ = ui::px(8);
+    int slot = (c.width - gap_ * (count_ - 1)) / count_;
+    if (slot < ui::mm(9) && count_ > 1) {
+      gap_ = ui::px(3);
+      slot = (c.width - gap_ * (count_ - 1)) / count_;
     }
-    top_ = (c.height - (rows_ * kh_ + (rows_ - 1) * gap_)) / 2;
-    for (int r = 0; r < rows_; ++r) {
-      const int in_row = std::min(per_, count_ - r * per_);
-      row_left_[r] = (c.width - (in_row * kw_ + (in_row - 1) * gap_)) / 2;
-    }
-    const int kh = kh_;
+    const int kh = std::max(1, std::min(c.height, ui::mm(12)));
+    kw_ = std::max(1, std::min(slot, kh * 3 / 2));
+    left_ = (c.width - (count_ * kw_ + (count_ - 1) * gap_)) / 2;
+    const int top = (c.height - kh) / 2;
     const int radius = std::min({ui::px(ui::large() ? 12 : 8), kw_ / 2, kh / 2});
 
     // The largest icon that leaves the key a margin.
@@ -144,7 +121,7 @@ class KeysTile : public tessera::Tile {
       Key &key = keys_[i];
       key.block = ui::block(c.parent, theme::BUTTON);
       lv_obj_set_size(key.block, kw_, kh);
-      lv_obj_set_pos(key.block, row_left_[i / per_] + (i % per_) * (kw_ + gap_), top_ + (i / per_) * (kh_ + gap_));
+      lv_obj_set_pos(key.block, left_ + i * (kw_ + gap_), top);
       lv_obj_set_style_radius(key.block, radius, 0);
       if (KINDS[key.kind].glyph) {
         key.icon = ui::label(key.block, face, theme::INK);
@@ -208,17 +185,14 @@ class KeysTile : public tessera::Tile {
     lv_obj_t *block = nullptr, *icon = nullptr;
   };
 
-  // The key under the finger: its own size and half the gap around it, so a tap between two keys still counts. A tap
-  // above or below the rows counts for the nearest row.
+  // The key under the finger: its own width and half the gap on either side, so a tap between two keys still counts.
   int key_at(tessera::Point p) const {
     if (count_ == 0) return -1;
-    if (p.x < 0 || p.y < 0) return count_ == 1 ? 0 : -1;
-    const int row = std::max(0, std::min(rows_ - 1, (p.y - top_ + gap_ / 2) / (kh_ + gap_)));
-    const int x = p.x - row_left_[row] + gap_ / 2;
+    if (p.x < 0) return count_ == 1 ? 0 : -1;
+    const int x = p.x - left_ + gap_ / 2;
     if (x < 0) return -1;
-    const int col = x / (kw_ + gap_);
-    const int i = row * per_ + col;
-    return col < per_ && i < count_ ? i : -1;
+    const int i = x / (kw_ + gap_);
+    return i < count_ ? i : -1;
   }
 
   // Whether the player's state is what this key does: playing lights play and play/pause, paused lights pause.
@@ -256,8 +230,7 @@ class KeysTile : public tessera::Tile {
   const tessera::Plugin *plugin_;
   Key keys_[KIND_COUNT];
   int count_ = 0;
-  int rows_ = 1, per_ = 1, top_ = 0, kw_ = 1, kh_ = 1, gap_ = 0;
-  int row_left_[3] = {0, 0, 0};
+  int left_ = 0, kw_ = 1, gap_ = 0;
   char entity_[128] = "";
   char state_[32] = "";
   bool player_ = false;

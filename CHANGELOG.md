@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.2.1
+- README: the use case (a set of four wall-panel tiles for conference rooms, sports bars and the like).
+
 ## 0.2.0
 - The tile can now be a single cell. When the keys do not fit side by side at a finger's width, they wrap onto two or
   three rows. Wider tiles keep one row.
